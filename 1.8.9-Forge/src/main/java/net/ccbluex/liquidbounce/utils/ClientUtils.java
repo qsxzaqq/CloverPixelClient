@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 @SideOnly(Side.CLIENT)
 public final class ClientUtils extends MinecraftInstance {
-    private static final Logger logger = LogManager.getLogger("Noteless");
+    private static final Logger logger = LogManager.getLogger("CloverPixel");
     public static void logError(String msg){
         logger.error(msg);
     }

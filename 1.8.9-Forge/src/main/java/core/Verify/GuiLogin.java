@@ -326,7 +326,7 @@ public class GuiLogin extends GuiScreen {
 
                     LiquidBounce.fileManager.loadConfigs(
                             LiquidBounce.fileManager.modulesConfig, LiquidBounce.fileManager.valuesConfig, LiquidBounce.fileManager.accountsConfig,
-                            LiquidBounce.fileManager.friendsConfig, LiquidBounce.fileManager.xrayConfig, LiquidBounce.fileManager.shortcutsConfig);
+                            LiquidBounce.fileManager.friendsConfig, LiquidBounce.fileManager.shortcutsConfig);
                     // Register commands 注册指令
                     LiquidBounce.commandManager.registerCommands();
 
@@ -336,8 +336,6 @@ public class GuiLogin extends GuiScreen {
                     LiquidBounce.fileManager.loadConfig(LiquidBounce.fileManager.clickGuiConfig);
                     mc.displayGuiScreen(new GuiMainMenu());
                     login = true;
-                    Display.setTitle("AnoxiaSense 220624");
-                    WbxMain.version = "Build 220624";
                   if (field.getText().isEmpty()){
                     status = "User ID Empty";
                     button.enabled = true;

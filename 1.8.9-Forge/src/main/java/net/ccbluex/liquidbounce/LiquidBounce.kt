@@ -34,7 +34,7 @@ object LiquidBounce {
     // Client information
     //121132
 
-    const val CLIENT_NAME = "Noteless"
+    const val CLIENT_NAME = "CloverPixel"
     const val CLIENT_VERSION = "211221"
     const val IN_DEV = false
     const val CLIENT_CREATOR = "CCBlueX"

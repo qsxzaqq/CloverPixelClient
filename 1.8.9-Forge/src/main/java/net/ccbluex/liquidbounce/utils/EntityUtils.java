@@ -6,9 +6,6 @@
 package net.ccbluex.liquidbounce.utils;
 
 import net.ccbluex.liquidbounce.LiquidBounce;
-import net.ccbluex.liquidbounce.features.module.modules.misc.AntiBot;
-import net.ccbluex.liquidbounce.features.module.modules.misc.GetName;
-import net.ccbluex.liquidbounce.features.module.modules.misc.Teams;
 import net.ccbluex.liquidbounce.utils.render.ColorUtils;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
@@ -43,18 +40,13 @@ public final class EntityUtils extends MinecraftInstance {
                     final EntityPlayer entityPlayer = (EntityPlayer) entity;
 
                     if(canAttackCheck) {
-                        if(AntiBot.isBot(entityPlayer))
-                            return false;
-                        if (entityPlayer.isSpectator() || GetName.isBot(entityPlayer))
+                        if (entityPlayer.isSpectator())
                             return false;
                         if (isFriend(entityPlayer))
                             return false;
 
                         if(entityPlayer.isSpectator())
                             return false;
-
-                        final Teams teams = (Teams) LiquidBounce.moduleManager.getModule(Teams.class);
-                        return !teams.getState() || !teams.isInYourTeam(entityPlayer);
                     }
 
                     return true;

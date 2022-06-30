@@ -6,7 +6,6 @@
 package net.ccbluex.liquidbounce.ui.client.hud
 
 import net.ccbluex.liquidbounce.ui.client.hud.element.elements.Hotbar
-import net.ccbluex.liquidbounce.ui.client.hud.element.elements.TargetHud
 import net.ccbluex.liquidbounce.ui.client.hud.designer.GuiHudDesigner
 import net.ccbluex.liquidbounce.ui.client.hud.element.Element
 import net.ccbluex.liquidbounce.ui.client.hud.element.elements.*
@@ -29,7 +28,6 @@ open class HUD : MinecraftInstance() {
 
         val elements = arrayOf(
             Armor::class.java,
-            TargetHud::class.java,
             Arraylist::class.java,
             Effect::class.java,
             Image::class.java,
@@ -37,7 +35,6 @@ open class HUD : MinecraftInstance() {
             Model::class.java,
             QQLogo::class.java,
             TabGUI::class.java,
-            TargetHud::class.java,
             Text::class.java,
             ScoreboardElement::class.java,
             SpeedGraph::class.java,

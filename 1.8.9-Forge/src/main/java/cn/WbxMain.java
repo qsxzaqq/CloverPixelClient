@@ -7,10 +7,10 @@ import net.ccbluex.liquidbounce.cn.Insane.Module.fonts.impl.SimpleFontManager;
 import net.ccbluex.liquidbounce.cn.Insane.newdropdown.SideGui.SideGui;
 
 public class WbxMain {
-    public static String Name = "Noteless";
+    public static String Name = "CloverPixel";
     public static String Rank = "";
     public static long playTimeStart = 0;
-    public static String version = "";
+    public static String version = "Build 8b36b2a";
     public static String username;
     private final SideGui sideGui = new SideGui();
     private static WbxMain INSTANCE;

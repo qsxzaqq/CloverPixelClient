@@ -5,7 +5,6 @@
  */
 package net.ccbluex.liquidbounce.features.module.modules.render;
 
-import net.ccbluex.liquidbounce.LiquidBounce;
 import net.ccbluex.liquidbounce.event.ClientShutdownEvent;
 import net.ccbluex.liquidbounce.event.EventTarget;
 import net.ccbluex.liquidbounce.event.UpdateEvent;
@@ -39,7 +38,7 @@ public class Fullbright extends Module {
 
     @EventTarget(ignoreCondition = true)
     public void onUpdate(final UpdateEvent event) {
-        if (getState() || LiquidBounce.moduleManager.getModule(XRay.class).getState()) {
+        if (getState()) {
             switch(modeValue.get().toLowerCase()) {
                 case "gamma":
                     if(mc.gameSettings.gammaSetting <= 100F)
@@ -49,7 +48,7 @@ public class Fullbright extends Module {
                     mc.thePlayer.addPotionEffect(new PotionEffect(Potion.nightVision.id, 1337, 1));
                     break;
             }
-        }else if(prevGamma != -1) {
+        } else if(prevGamma != -1) {
             mc.gameSettings.gammaSetting = prevGamma;
             prevGamma = -1;
         }

@@ -6,21 +6,17 @@
 package net.ccbluex.liquidbounce.injection.forge.mixins.item;
 
 import net.ccbluex.liquidbounce.LiquidBounce;
-import net.ccbluex.liquidbounce.features.module.modules.combat.KillAura;
 import net.ccbluex.liquidbounce.features.module.modules.render.BlockAnimations;
-import net.ccbluex.liquidbounce.features.module.modules.render.AntiBlind;
-import net.ccbluex.liquidbounce.features.module.modules.render.SwingAnimation;
-import net.ccbluex.liquidbounce.utils.timer.MSTimer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,9 +25,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemRenderer.class)
 @SideOnly(Side.CLIENT)
@@ -121,12 +114,10 @@ public abstract class MixinItemRenderer {
         GlStateManager.pushMatrix();
 
         if(this.itemToRender != null) {
-            final KillAura killAura = (KillAura) LiquidBounce.moduleManager.getModule(KillAura.class);
-
             if(this.itemToRender.getItem() instanceof net.minecraft.item.ItemMap) {
                 this.renderItemMap(abstractclientplayer, f2, f, f1);
-            } else if (abstractclientplayer.getItemInUseCount() > 0 || (itemToRender.getItem() instanceof ItemSword && killAura.getBlockingStatus())) {
-                EnumAction enumaction = killAura.getBlockingStatus() ? EnumAction.BLOCK : this.itemToRender.getItemUseAction();
+            } else if (abstractclientplayer.getItemInUseCount() > 0) {
+                EnumAction enumaction = this.itemToRender.getItemUseAction();
                 switch(enumaction) {
                     case NONE:
                         this.transformFirstPersonItem(f, 0.0F);
@@ -486,56 +477,5 @@ public abstract class MixinItemRenderer {
         GlStateManager.rotate(var4 * -10.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.rotate(var4 * -10.0F, 1.0F, 1.0F, 1.0F);
         doItemRenderGLScale();
-    }
-
-    /**
-     * @author Liuli
-     */
-    @Overwrite
-    private void renderFireInFirstPerson(float partialTicks) {
-        final AntiBlind antiBlind = (AntiBlind) LiquidBounce.moduleManager.getModule(AntiBlind.class);
-
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        float f = 1.0F;
-        if(antiBlind.getState() && antiBlind.getFireEffect().get()){
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 0.3F);
-            f = 0.7F;
-        }else{
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
-        }
-        GlStateManager.depthFunc(519);
-        GlStateManager.depthMask(false);
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-
-        for(int i = 0; i < 2; ++i) {
-            GlStateManager.pushMatrix();
-            TextureAtlasSprite textureatlassprite = this.mc.getTextureMapBlocks().getAtlasSprite("minecraft:blocks/fire_layer_1");
-            this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-            float f1 = textureatlassprite.getMinU();
-            float f2 = textureatlassprite.getMaxU();
-            float f3 = textureatlassprite.getMinV();
-            float f4 = textureatlassprite.getMaxV();
-            float f5 = (0.0F - f) / 2.0F;
-            float f6 = f5 + f;
-            float f7 = 0.0F - f / 2.0F;
-            float f8 = f7 + f;
-            float f9 = -0.5F;
-            GlStateManager.translate((float)(-(i * 2 - 1)) * 0.24F, -0.3F, 0.0F);
-            GlStateManager.rotate((float)(i * 2 - 1) * 10.0F, 0.0F, 1.0F, 0.0F);
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(f5, f7, f9).tex(f2, f4).endVertex();
-            worldrenderer.pos(f6, f7, f9).tex(f1, f4).endVertex();
-            worldrenderer.pos(f6, f8, f9).tex(f1, f3).endVertex();
-            worldrenderer.pos(f5, f8, f9).tex(f2, f3).endVertex();
-            tessellator.draw();
-            GlStateManager.popMatrix();
-        }
-
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.disableBlend();
-        GlStateManager.depthMask(true);
-        GlStateManager.depthFunc(515);
     }
 }

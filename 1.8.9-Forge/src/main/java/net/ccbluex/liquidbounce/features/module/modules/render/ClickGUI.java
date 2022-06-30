@@ -113,9 +113,6 @@ public class ClickGUI extends Module {
             case "liquidbounce":
                 LiquidBounce.clickGui.style = new LiquidBounceStyle();
                 break;
-            case "astolfo":
-                LiquidBounce.clickGui.style = new AstolfoStyle();
-                break;
             case "null":
                 LiquidBounce.clickGui.style = new NullStyle();
                 break;

@@ -8,18 +8,9 @@ package net.ccbluex.liquidbounce.injection.forge.mixins.client;
 
 import core.Verify.GuiLogin;
 import net.ccbluex.liquidbounce.LiquidBounce;
-import net.ccbluex.liquidbounce.cn.Insane.Ui.TestUi.dropdown.Client;
-import net.ccbluex.liquidbounce.cn.Insane.Ui.TestUi.dropdown.DropdownGUI;
 import net.ccbluex.liquidbounce.event.*;
-import net.ccbluex.liquidbounce.features.module.modules.combat.AutoClicker;
-import net.ccbluex.liquidbounce.features.module.modules.exploit.AbortBreaking;
-import net.ccbluex.liquidbounce.features.module.modules.exploit.MultiActions;
-import net.ccbluex.liquidbounce.features.module.modules.render.Rotations;
-import net.ccbluex.liquidbounce.features.module.modules.world.FastPlace;
 import core.GuiMainMenu;
 import net.ccbluex.liquidbounce.utils.CPSCounter;
-import net.ccbluex.liquidbounce.utils.RotationUtils;
-import net.ccbluex.liquidbounce.utils.misc.MiscUtils;
 import net.ccbluex.liquidbounce.utils.misc.QQUtils;
 import net.ccbluex.liquidbounce.utils.render.IconUtils;
 import net.ccbluex.liquidbounce.utils.render.RenderUtils;
@@ -123,20 +114,6 @@ public abstract class MixinMinecraft {
        Minecraft.getMinecraft().displayGuiScreen(new GuiLogin());
     }
 
-
-    @Inject(method = "getRenderViewEntity", at = @At("HEAD"))
-    public void getRenderViewEntity(CallbackInfoReturnable<Entity> cir){
-        if(RotationUtils.targetRotation != null && thePlayer != null) {
-            final Rotations rotations = (Rotations) LiquidBounce.moduleManager.getModule(Rotations.class);
-            final float yaw = RotationUtils.targetRotation.getYaw();
-            if(rotations.getHeadValue().get()){
-                thePlayer.rotationYawHead = yaw;
-            }
-            if(rotations.getBodyValue().get()){
-                thePlayer.renderYawOffset = yaw;
-            }
-        }
-    }
     private long lastFrame = getTime();
     @Inject(method = "displayGuiScreen", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;currentScreen:Lnet/minecraft/client/gui/GuiScreen;", shift = At.Shift.AFTER))
     private void displayGuiScreen(CallbackInfo callbackInfo) {
@@ -200,58 +177,14 @@ public abstract class MixinMinecraft {
         LiquidBounce.INSTANCE.stopClient();
     }
 
-    @Inject(method = "clickMouse", at = @At("HEAD"))
-    private void clickMouse(CallbackInfo callbackInfo) {
-        CPSCounter.registerClick(CPSCounter.MouseButton.LEFT);
-
-        if (LiquidBounce.moduleManager.getModule(AutoClicker.class).getState())
-            leftClickCounter = 0;
-    }
-
     @Inject(method = "middleClickMouse", at = @At("HEAD"))
     private void middleClickMouse(CallbackInfo ci) {
         CPSCounter.registerClick(CPSCounter.MouseButton.MIDDLE);
     }
 
-    @Inject(method = "rightClickMouse", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;rightClickDelayTimer:I", shift = At.Shift.AFTER))
-    private void rightClickMouse(final CallbackInfo callbackInfo) {
-        CPSCounter.registerClick(CPSCounter.MouseButton.RIGHT);
-
-        final FastPlace fastPlace = (FastPlace) LiquidBounce.moduleManager.getModule(FastPlace.class);
-
-        if (fastPlace.getState())
-            rightClickDelayTimer = fastPlace.getSpeedValue().get();
-    }
-
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At("HEAD"))
     private void loadWorld(WorldClient p_loadWorld_1_, String p_loadWorld_2_, final CallbackInfo callbackInfo) {
         LiquidBounce.eventManager.callEvent(new WorldEvent(p_loadWorld_1_));
-    }
-
-    /**
-     * @author CCBlueX
-     */
-    @Overwrite
-    private void sendClickBlockToController(boolean leftClick) {
-        if(!leftClick)
-            this.leftClickCounter = 0;
-
-        if (this.leftClickCounter <= 0 && (!this.thePlayer.isUsingItem() || LiquidBounce.moduleManager.getModule(MultiActions.class).getState())) {
-            if(leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                BlockPos blockPos = this.objectMouseOver.getBlockPos();
-
-                if(this.leftClickCounter == 0)
-                    LiquidBounce.eventManager.callEvent(new ClickBlockEvent(blockPos, this.objectMouseOver.sideHit));
-
-
-                if(this.theWorld.getBlockState(blockPos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockPos, this.objectMouseOver.sideHit)) {
-                    this.effectRenderer.addBlockHitEffects(blockPos, this.objectMouseOver.sideHit);
-                    this.thePlayer.swingItem();
-                }
-            } else if (!LiquidBounce.moduleManager.getModule(AbortBreaking.class).getState()) {
-                this.playerController.resetBlockRemoving();
-            }
-        }
     }
 
     /**

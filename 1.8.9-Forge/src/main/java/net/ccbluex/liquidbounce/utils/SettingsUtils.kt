@@ -1,9 +1,6 @@
 package net.ccbluex.liquidbounce.utils
 
 import net.ccbluex.liquidbounce.LiquidBounce
-import net.ccbluex.liquidbounce.features.module.ModuleCategory
-import net.ccbluex.liquidbounce.features.module.modules.misc.NameProtect
-import net.ccbluex.liquidbounce.features.module.modules.misc.Spammer
 import net.ccbluex.liquidbounce.utils.misc.HttpUtils.get
 import net.ccbluex.liquidbounce.utils.misc.StringUtils
 import net.ccbluex.liquidbounce.utils.render.ColorUtils.translateAlternateColorCodes
@@ -134,9 +131,7 @@ object SettingsUtils {
     fun generateScript(values: Boolean, binds: Boolean, states: Boolean): String {
         val stringBuilder = StringBuilder()
 
-        LiquidBounce.moduleManager.modules.filter {
-            it.category !== ModuleCategory.RENDER && it !is NameProtect && it !is Spammer
-        }.forEach {
+        LiquidBounce.moduleManager.modules.forEach {
             if (values)
                 it.values.forEach { value -> stringBuilder.append(it.name).append(" ").append(value.name).append(" ").append(value.get()).append("\n") }
 

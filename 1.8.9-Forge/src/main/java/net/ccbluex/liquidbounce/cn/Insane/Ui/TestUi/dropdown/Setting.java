@@ -1,10 +1,10 @@
 package net.ccbluex.liquidbounce.cn.Insane.Ui.TestUi.dropdown;
 
 
+import net.ccbluex.liquidbounce.features.module.modules.render.ClickGUI;
 import net.ccbluex.liquidbounce.utils.timer.Timer;
 import net.ccbluex.liquidbounce.LiquidBounce;
 import net.ccbluex.liquidbounce.cn.Insane.Module.fonts.impl.Fonts;
-import net.ccbluex.liquidbounce.features.module.modules.render.ClickGUI;
 import net.ccbluex.liquidbounce.features.module.modules.render.HUD;
 import net.ccbluex.liquidbounce.utils.math.MathUtils;
 import net.ccbluex.liquidbounce.utils.render.RenderUtils;

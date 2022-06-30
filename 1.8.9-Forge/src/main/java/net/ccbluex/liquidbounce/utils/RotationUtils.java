@@ -258,16 +258,6 @@ public final class RotationUtils extends MinecraftInstance implements Listenable
 
         return vecRotation;
     }
-    public static void setTargetRotationReverse(final Rotation rotation, final int keepLength, final int revTick) {
-        if(Double.isNaN(rotation.getYaw()) || Double.isNaN(rotation.getPitch())
-                || rotation.getPitch() > 90 || rotation.getPitch() < -90)
-            return;
-
-        rotation.fixedSensitivity(mc.gameSettings.mouseSensitivity);
-        targetRotation = rotation;
-        RotationUtils.keepLength = keepLength;
-        RotationUtils.revTick = revTick+1;
-    }
 
     public static VecRotation searchCenter(final AxisAlignedBB bb, final boolean outborder, final boolean random, final boolean predict, final boolean throughWalls) {
         if(outborder) {
@@ -471,40 +461,6 @@ public final class RotationUtils extends MinecraftInstance implements Listenable
         return RotationUtils.getRotations(entity.posX, entity.posY + (entity.getEntityBoundingBox().maxY-entity.getEntityBoundingBox().minY)*0.5, entity.posZ);
     }
 
-
-
-    /**
-     * Face target with bow
-     *
-     * @param target your enemy
-     * @param silent client side rotations
-     * @param predict predict new enemy position
-     * @param predictSize predict size of predict
-     */
-    public static void faceBow(final Entity target, final boolean silent, final boolean predict, final float predictSize) {
-        final EntityPlayerSP player = mc.thePlayer;
-
-        final double posX = target.posX + (predict ? (target.posX - target.prevPosX) * predictSize : 0) - (player.posX + (predict ? (player.posX - player.prevPosX) : 0));
-        final double posY = target.getEntityBoundingBox().minY + (predict ? (target.getEntityBoundingBox().minY - target.prevPosY) * predictSize : 0) + target.getEyeHeight() - 0.15 - (player.getEntityBoundingBox().minY + (predict ? (player.posY - player.prevPosY) : 0)) - player.getEyeHeight();
-        final double posZ = target.posZ + (predict ? (target.posZ - target.prevPosZ) * predictSize : 0) - (player.posZ + (predict ? (player.posZ - player.prevPosZ) : 0));
-        final double posSqrt = Math.sqrt(posX * posX + posZ * posZ);
-
-        float velocity = player.getItemInUseDuration() / 20F;
-        velocity = (velocity * velocity + velocity * 2) / 3;
-
-        if(velocity > 1) velocity = 1;
-
-        final Rotation rotation = new Rotation(
-                (float) (Math.atan2(posZ, posX) * 180 / Math.PI) - 90,
-                (float) -Math.toDegrees(Math.atan((velocity * velocity - Math.sqrt(velocity * velocity * velocity * velocity - 0.006F * (0.006F * (posSqrt * posSqrt) + 2 * posY * (velocity * velocity)))) / (0.006F * posSqrt)))
-        );
-
-        if(silent)
-            setTargetRotation(rotation);
-        else
-            limitAngleChange(new Rotation(player.rotationYaw, player.rotationPitch), rotation,10 +
-                    new Random().nextInt(6)).toPlayer(mc.thePlayer);
-    }
     public static VecRotation searchCenter(final AxisAlignedBB bb, final boolean outborder, final boolean random,
                                            final boolean predict, final boolean throughWalls, final float distance, final float randomMultiply, final boolean newRandom) {
         if(outborder) {
@@ -764,31 +720,6 @@ public final class RotationUtils extends MinecraftInstance implements Listenable
             if(packetPlayer.rotating) serverRotation = new Rotation(packetPlayer.yaw, packetPlayer.pitch);
         }
     }
-
-    /**
-     * Set your target rotation
-     *
-     * @param rotation your target rotation
-     */
-    public static void setTargetRotation(final Rotation rotation) {
-        setTargetRotation(rotation, 0);
-    }
-
-    /**
-     * Set your target rotation
-     *
-     * @param rotation your target rotation
-     */
-    public static void setTargetRotation(final Rotation rotation, final int keepLength) {
-        if(Double.isNaN(rotation.getYaw()) || Double.isNaN(rotation.getPitch())
-                || rotation.getPitch() > 90 || rotation.getPitch() < -90)
-            return;
-
-        rotation.fixedSensitivity(mc.gameSettings.mouseSensitivity);
-        targetRotation = rotation;
-        RotationUtils.keepLength = keepLength;
-    }
-
 
     /**
      * Reset your target rotation

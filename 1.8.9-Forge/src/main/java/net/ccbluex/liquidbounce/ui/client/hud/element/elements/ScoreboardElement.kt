@@ -7,9 +7,7 @@ package net.ccbluex.liquidbounce.ui.client.hud.element.elements
 
 import com.google.common.collect.Iterables
 import com.google.common.collect.Lists
-import jline.internal.Nullable
 import net.ccbluex.liquidbounce.LiquidBounce
-import net.ccbluex.liquidbounce.features.module.modules.render.AntiBlind
 import net.ccbluex.liquidbounce.features.module.modules.render.ClickGUI
 import net.ccbluex.liquidbounce.features.module.modules.render.HUD
 import net.ccbluex.liquidbounce.ui.client.hud.element.Border
@@ -20,10 +18,7 @@ import net.ccbluex.liquidbounce.ui.font.Fonts
 import net.ccbluex.liquidbounce.utils.misc.StringUtils
 import net.ccbluex.liquidbounce.utils.render.ColorUtils
 import net.ccbluex.liquidbounce.utils.render.BlurUtils
-import net.ccbluex.liquidbounce.utils.render.ColorUtil
-import net.ccbluex.liquidbounce.utils.render.Colors
 import net.ccbluex.liquidbounce.utils.render.RenderUtils
-import net.ccbluex.liquidbounce.utils.render.RoundedUtil
 import net.ccbluex.liquidbounce.value.BoolValue
 import net.ccbluex.liquidbounce.value.FontValue
 import net.ccbluex.liquidbounce.value.FloatValue
@@ -80,10 +75,6 @@ class ScoreboardElement(x: Double = 5.0, y: Double = 0.0, scale: Float = 1F,
      * Draw element
      */
     override fun drawElement(): Border? {
-        val antiBlind = LiquidBounce.moduleManager.getModule(AntiBlind::class.java) as AntiBlind
-        if (antiBlind.state && antiBlind.scoreBoard.get())
-            return null
-
         val fontRenderer = fontValue.get()
         val backColor = backgroundColor().rgb
 

@@ -19,8 +19,6 @@ class CombatManager : Listenable, MinecraftInstance() {
     val attackedEntityList = mutableListOf<EntityLivingBase>()
     val focusedPlayerList = mutableListOf<EntityPlayer>()
 
-    private val hackerWords = arrayOf("hack", "cheat", "bhop", "fly", "nokb", "antikb")
-
     @EventTarget
     fun onUpdate(event: UpdateEvent) {
         if (mc.thePlayer == null) return

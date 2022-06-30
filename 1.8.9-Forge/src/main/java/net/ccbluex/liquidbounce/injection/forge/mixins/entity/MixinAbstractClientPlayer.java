@@ -6,8 +6,6 @@
 package net.ccbluex.liquidbounce.injection.forge.mixins.entity;
 
 import net.ccbluex.liquidbounce.LiquidBounce;
-import net.ccbluex.liquidbounce.features.module.modules.misc.NameProtect;
-import net.ccbluex.liquidbounce.features.module.modules.render.NoFOV;
 import net.ccbluex.liquidbounce.ui.cape.GuiCapeManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -46,41 +44,5 @@ public abstract class MixinAbstractClientPlayer extends MixinEntityPlayer {
 
         if(GuiCapeManager.INSTANCE.getNowCape()!=null)
             callbackInfoReturnable.setReturnValue(GuiCapeManager.INSTANCE.getNowCape().getResource());
-    }
-    @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
-    private void getFovModifier(CallbackInfoReturnable<Float> callbackInfoReturnable) {
-        final NoFOV fovModule = (NoFOV) LiquidBounce.moduleManager.getModule(NoFOV.class);
-
-        if(fovModule.getState()) {
-            float newFOV = fovModule.getFovValue().get();
-
-            if(!this.isUsingItem()) {
-                callbackInfoReturnable.setReturnValue(newFOV);
-                return;
-            }
-
-            if(this.getItemInUse().getItem() != Items.bow) {
-                callbackInfoReturnable.setReturnValue(newFOV);
-                return;
-            }
-
-            int i = this.getItemInUseDuration();
-            float f1 = (float) i / 20.0f;
-            f1 = f1 > 1.0f ? 1.0f : f1 * f1;
-            newFOV *= 1.0f - f1 * 0.15f;
-            callbackInfoReturnable.setReturnValue(newFOV);
-        }
-    }
-
-    @Inject(method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;", at = @At("HEAD"), cancellable = true)
-    private void getSkin(CallbackInfoReturnable<ResourceLocation> callbackInfoReturnable) {
-        final NameProtect nameProtect = (NameProtect) LiquidBounce.moduleManager.getModule(NameProtect.class);
-
-        if(nameProtect.getState() && nameProtect.skinProtectValue.get()) {
-            if (!nameProtect.allPlayersValue.get() && !Objects.equals(getGameProfile().getName(), Minecraft.getMinecraft().thePlayer.getGameProfile().getName()))
-                return;
-
-            callbackInfoReturnable.setReturnValue(DefaultPlayerSkin.getDefaultSkin(getUniqueID()));
-        }
     }
 }

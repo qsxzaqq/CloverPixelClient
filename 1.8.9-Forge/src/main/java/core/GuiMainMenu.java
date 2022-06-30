@@ -235,39 +235,6 @@ public class GuiMainMenu extends GuiScreen {
             }
         }
 
-        RenderUtils.drawmage(new ResourceLocation("liquidbounce/astolfos/logo.png"), width / 2 - 50, height / 2 - 144, 96, 96, 1);
-        final int[] imageWidth = {230, 250, 400};
-        final int[] imageHeight = {312, 353, 422, 305, 242};
-        int imageX, imageY;
-        switch (astolfo) {
-            case 0:
-                imageX = imageWidth[0];
-                imageY = imageHeight[0];
-                break;
-            case 1:
-                imageX = imageWidth[1];
-                imageY = imageHeight[1];
-                break;
-            case 2:
-                imageX = imageWidth[0];
-                imageY = imageHeight[2];
-                break;
-            case 3:
-                imageX = imageWidth[2];
-                imageY = imageHeight[3];
-                break;
-            case 4:
-                imageX = imageWidth[0];
-                imageY = imageHeight[4];
-                break;
-            default: {
-                imageX = 0;
-                imageY = 0;
-                break;
-            }
-        }
-        RenderUtils.drawmage(new ResourceLocation("liquidbounce/astolfos/" + astolfo + ".png"), width - imageX / 3, height - imageY / 3, imageX / 3, imageY / 3, 0.5f);
-
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Fonts.SFUI35.drawString("Welcome, User", width - Fonts.SFUI35.getStringWidth("Welcome, User") - 4f, height - 12f, new Color(255, 255, 255, 200).getRGB(), true);
         Fonts.SFUI35.drawString("AnoxiaSense(#Build 220624)", 4f, height - 12f, new Color(255, 255, 255, 200).getRGB(), true);

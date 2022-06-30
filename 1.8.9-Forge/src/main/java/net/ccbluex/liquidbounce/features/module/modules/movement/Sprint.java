@@ -16,7 +16,7 @@ import net.ccbluex.liquidbounce.utils.RotationUtils;
 import net.ccbluex.liquidbounce.value.BoolValue;
 import net.minecraft.potion.Potion;
 
-@ModuleInfo(name = "Sprint", description = "Automatically sprints all the time.", category = ModuleCategory.MOVEMENT)
+@ModuleInfo(name = "强制疾跑", description = "Automatically sprints all the time.", category = ModuleCategory.MOVEMENT)
 public class Sprint extends Module {
 
     public final BoolValue allDirectionsValue = new BoolValue("AllDirections", true);

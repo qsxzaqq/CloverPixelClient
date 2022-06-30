@@ -82,18 +82,18 @@ public abstract class MixinEntityLivingBase extends MixinEntity {
     }
 
     /**
-     * @author
-     * @reason
+     * @author JinVan
+     * @reason 挥动动画
      */
     @Overwrite
     private int getArmSwingAnimationEnd() {
         BlockAnimations animations = (BlockAnimations) LiquidBounce.moduleManager.getModule(BlockAnimations.class);
         boolean swing = animations.getSwingSpeed().get()!= 0;
 
-        return isPotionActive(Potion.digSpeed) ? 10 - (1 + getActivePotionEffect(Potion.digSpeed).getAmplifier()):
-                swing ? 10 + (1 + animations.getSwingSpeed().get()) * 2 :
-                        (isPotionActive(Potion.digSlowdown) ? 10 + (1 + getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 :
-                                10);
+        return isPotionActive(Potion.digSpeed) ? 6 - (1 + getActivePotionEffect(Potion.digSpeed).getAmplifier()):
+                swing ? 6 + (1 + animations.getSwingSpeed().get()) * 2 :
+                        (isPotionActive(Potion.digSlowdown) ? 6 + (1 + getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 :
+                                6);
     }
 
     @Inject(method = "getLook", at = @At("HEAD"), cancellable = true)

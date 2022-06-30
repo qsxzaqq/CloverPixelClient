@@ -8,7 +8,7 @@ import net.ccbluex.liquidbounce.value.BoolValue;
 import net.ccbluex.liquidbounce.value.FloatValue;
 import net.ccbluex.liquidbounce.value.ListValue;
 
-@ModuleInfo(name = "Animations", description = "Animation for blocking.", category = ModuleCategory.RENDER)
+@ModuleInfo(name = "防砍动画", description = "Animation for blocking.", category = ModuleCategory.RENDER)
 class BlockAnimations : Module() {
     val presetValue = ListValue(
         "Preset", arrayOf(

@@ -6,12 +6,8 @@
 package net.ccbluex.liquidbounce.features.module
 
 
-import core.Verify.GuiLogin
 import net.ccbluex.liquidbounce.LiquidBounce
 import net.ccbluex.liquidbounce.event.Listenable
-import net.ccbluex.liquidbounce.script.api.ScriptModule
-import net.ccbluex.liquidbounce.ui.client.hud.element.elements.Notification
-import net.ccbluex.liquidbounce.ui.client.hud.element.elements.NotifyType
 import net.ccbluex.liquidbounce.utils.MinecraftInstance
 import net.ccbluex.liquidbounce.utils.render.ColorUtils.stripColor
 import net.ccbluex.liquidbounce.utils.render.Translate
@@ -27,11 +23,7 @@ open class Module : MinecraftInstance(), Listenable {
     val translate = Translate(0F,0F)
     val tab = Translate(0f , 0f)
     var expanded: Boolean = false
-    var toggleButtonAnimation = 218f
-    private var suffix: String? = null
-    // Module information
-    // TODO: Remove ModuleInfo and change to constructor (#Kotlin)
-    var fakeName: String
+
     var animation = 0F
     var name: String
     var spacedName: String
@@ -42,15 +34,13 @@ open class Module : MinecraftInstance(), Listenable {
         set(keyBind) {arrayY
             field = keyBind
 
-            if (GuiLogin.login&&!LiquidBounce.isStarting)
-                LiquidBounce.fileManager.saveConfig(LiquidBounce.fileManager.modulesConfig)
+            LiquidBounce.fileManager.saveConfig(LiquidBounce.fileManager.modulesConfig)
         }
     var array = true
         set(array) {
             field = array
 
-            if (GuiLogin.login &&!LiquidBounce.isStarting)
-                LiquidBounce.fileManager.saveConfig(LiquidBounce.fileManager.modulesConfig)
+            LiquidBounce.fileManager.saveConfig(LiquidBounce.fileManager.modulesConfig)
         }
     private val canEnable: Boolean
 
@@ -58,7 +48,6 @@ open class Module : MinecraftInstance(), Listenable {
 
     init {
         val moduleInfo = javaClass.getAnnotation(ModuleInfo::class.java)!!
-        fakeName = if(moduleInfo.fakeName.isEmpty() || this is ScriptModule) moduleInfo.name else moduleInfo.fakeName
         name = moduleInfo.name
         description = moduleInfo.description
         spacedName = if (moduleInfo.spacedName == "") name else moduleInfo.spacedName
@@ -93,8 +82,7 @@ open class Module : MinecraftInstance(), Listenable {
             }
 
             // Save module state
-            if (GuiLogin.login&&!LiquidBounce.isStarting)
-                LiquidBounce.fileManager.saveConfig(LiquidBounce.fileManager.modulesConfig)
+            LiquidBounce.fileManager.saveConfig(LiquidBounce.fileManager.modulesConfig)
         }
 
 
@@ -105,26 +93,12 @@ open class Module : MinecraftInstance(), Listenable {
     open val tag: String?
         get() = null
 
-    open fun tagName(nameBreak: Boolean) : String {
-        if(nameBreak && !name.contains("ScriptModule") && !fakeName.contains("ScriptModule")) {
-            return "$fakeName${if (tag == null) "" else "§7 [$tag]"}"
-        }
-        return "$name${if (tag == null) "" else "§7 [$tag]"}"
-    }
+    val tagName: String
+        get() = "$name${if (tag == null) "" else " §7$tag"}"
 
-    fun colorlessTagName(nameBreak: Boolean) : String {
-        if(nameBreak) {
-            return "$fakeName${if (tag == null) "" else "[" + stripColor(tag)}"
-        }
-        return "$name${if (tag == null) "" else "§[" + stripColor(tag)}"
-    }
+    val colorlessTagName: String
+        get() = "$name${if (tag == null) "" else " " + stripColor(tag)}"
 
-    fun fakeName(nameBreak: Boolean) : String {
-        if(nameBreak && !name.contains("ScriptModule") && !fakeName.contains("ScriptModule")) {
-            return fakeName
-        }
-        return name
-    }
     /**
      * Toggle module
      */

@@ -15,15 +15,13 @@ class GuiModsMenu(private val prevGui: GuiScreen) : GuiScreen() {
 
     override fun initGui() {
         buttonList.add(GuiButton(0, width / 2 - 100, height / 4 + 48, "Forge Mods"))
-        buttonList.add(GuiButton(1, width / 2 - 100, height / 4 + 48 + 25, "Scripts"))
-        buttonList.add(GuiButton(2, width / 2 - 100, height / 4 + 48 + 50, "Back"))
+        buttonList.add(GuiButton(1, width / 2 - 100, height / 4 + 48 + 50, "Back"))
     }
 
     override fun actionPerformed(button: GuiButton) {
         when (button.id) {
             0 -> mc.displayGuiScreen(GuiModList(this))
-            1 -> mc.displayGuiScreen(GuiScripts(this))
-            2 -> mc.displayGuiScreen(prevGui)
+            1 -> mc.displayGuiScreen(prevGui)
         }
     }
 

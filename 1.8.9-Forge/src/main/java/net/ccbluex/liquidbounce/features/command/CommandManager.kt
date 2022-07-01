@@ -46,7 +46,6 @@ class CommandManager {
         registerCommand(EnchantCommand())
         registerCommand(ReloadCommand())
         registerCommand(LoginCommand())
-        registerCommand(ScriptManagerCommand())
         registerCommand(RemoteViewCommand())
         registerCommand(PrefixCommand())
         registerCommand(ShortcutCommand())

@@ -218,7 +218,7 @@ public class GuiMainMenu extends GuiScreen {
         GlStateManager.scale(f, f, f);
         GlStateManager.popMatrix();
 
-        final ArrayList<String> changes = new ArrayList();
+       /* final ArrayList<String> changes = new ArrayList();
         final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
 
@@ -233,11 +233,10 @@ public class GuiMainMenu extends GuiScreen {
             for (int i = 0; i < changes.size(); i++) {
                 net.ccbluex.liquidbounce.cn.Insane.Module.fonts.impl.Fonts.SF.SF_20.SF_20.drawString(changes.get(i), 5, 16 + i * 12, new Color(255, 255, 255, 220).hashCode());
             }
-        }
+        }*/
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Fonts.SFUI35.drawString("Welcome, User", width - Fonts.SFUI35.getStringWidth("Welcome, User") - 4f, height - 12f, new Color(255, 255, 255, 200).getRGB(), true);
-        Fonts.SFUI35.drawString("AnoxiaSense(#Build 220624)", 4f, height - 12f, new Color(255, 255, 255, 200).getRGB(), true);
+        Fonts.SFUI35.drawString("CloverPixel(#Build 6f97e20)", 4f, height - 12f, new Color(255, 255, 255, 200).getRGB(), true);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (func_183501_a()) field_183503_M.drawScreen(mouseX, mouseY, partialTicks);

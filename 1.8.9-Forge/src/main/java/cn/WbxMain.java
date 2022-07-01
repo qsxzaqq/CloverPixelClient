@@ -10,7 +10,7 @@ public class WbxMain {
     public static String Name = "CloverPixel";
     public static String Rank = "";
     public static long playTimeStart = 0;
-    public static String version = "Build 8b36b2a";
+    public static String version = "Build 6f97e20";
     public static String username;
     private final SideGui sideGui = new SideGui();
     private static WbxMain INSTANCE;
